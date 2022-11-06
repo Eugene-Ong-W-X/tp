@@ -67,34 +67,60 @@ SoConnect is a **desktop app for managing contacts and tasks**. It aims to help 
 
 ## Contact Management Features
 
+Welcome to the Contact Management Features section! In this section, you can learn how to manage your contacts using SoConnect. Contacts help you to keep track of a person's information by storing them all in 1 place. This way, you won't have to worry about forgetting someone's information and can find their information conveniently in 1 place.
+
+A contact of a person consists of
+1. their name
+2. their phone number
+3. their email address
+4. their address
+5. (optional) tags to help you categorise your contacts
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Note:**<br>
+* You might forget that you have already added a contact, but no need to worry about having duplicate contacts! We help you to detect duplicate contacts by checking existing contacts for the exact same name (case-sensitive) whenever you add a new contact or edit an existing contact. 
+* What if you are trying to add the contacts of 2 different people with the same name? You can make use of the case-sensitivity of names and numbers to help you differentiate between the contacts. (e.g. `Alex Yeoh`,`Alex yeoh`,`Alex Yeoh 1`,`Alex Yeoh 2` can all be added as 4 different valid contacts)
+* Names currently only accept alphanumeric characters and spaces to help you avoid mistakes when typing them. If a name you are trying to add has special characters like `,` or `/`, it is alright to leave the special characters out for now as SoConnect does not require you to store the exact legal names of your contacts.
+
+</div>
+
 ### Adding a contact: `add`
 
-Adds a contact to your SoConnect.
+You can add a contact using the `add` command as shown below. While the `NAME`, `PHONE_NUMBER`, `EMAIL`, and `ADDRESS` parameters are mandatory, you can include as many `TAG` parameters as you wish (including none).
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…`
 
 <div markdown="block" class="alert alert-info">
-**:information_source: Note:** The tag has to be created first before you can add it into a contact. 
 
-Refer to [`Creating a Tag`](#creating-a-tag-tag-create) on how to create a tag.
+**:information_source: Note:** 
+
+Tags have to be created first before you can add them to a contact. 
+
+* Refer to [`Creating a Tag`](#creating-a-tag-tag-create) on how to create a tag.
+
 </div>
 
-* Duplicate name is not allowed. A name is considered duplicate if it has the exact same characters (case-sensitive) with an existing contact's name. For example, `Alex Yeoh` and `Alex yeoh` is considered different. This is to increase users' easiness in differentiating between contacts in the future. It is also to prevent users from creating new contacts when their actual intention is to edit a field from existing contacts.
-* `NAME` currently only accepts alphanumeric values. This is to prevent users from supplying mistyped names into their contacts. However, numbers are still accepted to provide users a mean to differentiate between similar names and to account for special names that originally have numbers in it. 
-
-Examples:
+Example:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567`
 
 ### Editing a contact : `edit`
 
-Edits an existing contact in your SoConnect.
+You might have added the wrong information when adding a contact, or you might need to update the information of a contact. Regardless, you can accomplish both easily using the `edit` command as shown below. All you need is the `INDEX` of the contact you want to modify along with the parameters you want to update.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS]`
 
-* Edits the contact at the specified `INDEX`.
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values, provided that the input values do not violate constraints set by other features. For example, editing a name with input value that is considered duplicate in `add` feature is not allowed.
+* At least 1 of the 4 optional parameters must be provided.
+* Existing information will be updated with the parameters provided. Information of the parameters not provided will remain unchanged.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Note:**
+
+To edit the tags of a contact, you can refer to [adding a tag](#adding-a-tag-to-a-contact-tag-add) and [removing a tag](#removing-a-tag-from-a-contact-tag-remove).
+
+</div>
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st contact to be `91234567` and `johndoe@example.com` respectively.
@@ -102,7 +128,7 @@ Examples:
 
 ### Listing all contacts : `list`
 
-Shows a list of all contacts in your SoConnect.
+Whenever you need to view a list of all the contacts you have in your SoConnect, you can easily do so using the `list` command. You can directly use the `list` command without the need of any parameters!
 
 Format: `list`
 
@@ -147,11 +173,11 @@ Example:
 
 ### Sorting contacts : `sort`
 
-Sorts the list of contacts displayed by 1 or more parameter(s) chosen by you.
+Organising your contacts can make tracking and managing them easier, especially when you have lots of contacts. You can organise your contacts in the order you prefer using the `sort` command as shown below. Given below are the orders that you can choose each parameter to be sorted by.
 
 How *names (n/)*, *emails (e/)*, *addresses (a/ )* are sorted:
 * In alphabetical order. (e.g. `Al` comes before `Alfred` which comes before `Brad`)
-* Case insensitive. (e.g. `Al`, `al`, `AL`, and `aL` are identical when it comes to sorting)
+* Case-insensitive. (e.g. `Al`, `al`, `AL`, and `aL` are identical when it comes to sorting)
 
 How *phone numbers (p/)* are sorted: 
 * In increasing numerical order. (e.g. `123` comes before `125` which comes before `1234`)
@@ -163,17 +189,27 @@ How *tags (t/TAG)* are sorted:
 
 **:information_source: Note:**<br>
 * When sorting by tags, unlike other parameters, you have to specify a value (an existing `TAG`) to sort by.
-* For other parameters (i.e. `n/ e/ a/ p/`), values provided are ignored. (e.g. sorting by `n/Alfred` is a valid command, the list will be sorted by name and the given value `Alfred` is ignored)
+* For other parameters (i.e. `n/ e/ a/ p/`), values provided are ignored. (e.g. sorting by `n/Alfred` is a valid command, the list will be sorted by name alphabetically, and the name given `Alfred` is ignored)
 
 </div>
 
 Format: `sort [n/] [p/] [e/] [a/] [t/TAG]…​`
+* At least 1 of the optional parameters must be provided.
 * To sort in reverse order from the orders given above, use these modified parameters: `[n/!] [p/!] [e/!] [a/!] [t/!TAG]`.
 * To sort with multiple parameters, arrange the parameters in order of decreasing priority.
   * The list will be sorted by the first parameter.
   * If ties occur (e.g. both contacts have the exact same name), the second parameter will be used to sort the tied contacts.
   * If the tie still occurs, the third parameter will be used.
   * Repeat until the tie is resolved or there are no more parameters.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Note:**
+
+You can use multiple parameters to sort if you want to organise your contacts even more! Your list will be sorted by the first parameter you provide as per usual. Here's how the other parameters will be used:
+1. For contacts that have identical values for the first parameter (e.g. same phone number, same email, same address, or contains the same tag), they will be sorted by the second parameter you provide.
+
+</div>
 
 Example:
 * `sort n/` sorts by names. (e.g. `David` appears before `Mike`)
@@ -182,11 +218,9 @@ Example:
 
 ### Deleting a contact : `delete`
 
-Deletes the specified contact from your SoConnect.
+If you added a contact by mistake, or you no longer wish to keep a particular contact, you can delete it easily using the `delete` command. All you need is the `INDEX` of the contact and poof, it's gone!
 
 Format: `delete INDEX`
-
-* Deletes the contact at the specified `INDEX`.
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd contact in your SoConnect.
@@ -194,7 +228,7 @@ Examples:
 
 ### Clearing all contacts : `clear`
 
-Clears all contacts from your SoConnect.
+Want a fresh start? You can reset and get a clean, empty list of contacts using the `clear` command. You can directly use the `clear` command without the need of any parameters!
 
 Format: `clear`
 
@@ -496,6 +530,9 @@ If your changes to the data file makes its format invalid, SoConnect will discar
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous SoConnect home folder.
 
+**Q**: What if I do not have the phone number/email address/address of a person whose contact I am trying to add?
+**A**: When SoConnect has more users, we plan to gather feedback for which information should be made optional. In the meantime, you can go ahead and add the contact by replacing the fields you do not have with dummy information. (e.g. Using `123` for the phone number, `xyz@email.com` for the email, or `xyz` for the address)
+
 --------------------------------------------------------------------------------------------------------------------
 
 # Glossary
@@ -510,6 +547,7 @@ If your changes to the data file makes its format invalid, SoConnect will discar
 * **Private Contact Detail**: A contact detail that is not meant to be shared with others.
 * **Autocomplete**: A feature that shows a list of completed words or strings without the user needing to type them in full.
 * **Todo**: A task that the user needs to complete. <a id="glossary-todo"></a>
+* **Alphanumeric**: Alphabet letters and numbers only.
 
 # Command summary
 
